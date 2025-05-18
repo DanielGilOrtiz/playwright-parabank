@@ -46,6 +46,8 @@ export class UpdateProfilePage extends BasePage {
             case "Phone":
                 await this.Phone.fill(value);
                 break;
+            default:
+                throw new Error(`Field ${field} is not recognized`);
         }
         await this.UpdateProfile.click();
     };
