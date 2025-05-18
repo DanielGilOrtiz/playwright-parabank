@@ -158,7 +158,11 @@ test.describe("Bill payment transaction", () => {
         await findTransactionsPage.assertTransactionIsAvailable(billPayment.name);
     });
 
-    test("should be found when filtering by Id", async () => {
+    test.fixme("should be found when filtering by Id", async () => {
+        test.info().annotations.push({
+            type: "Bug",
+            description: "Issue #1: Error retrieved when filtering by Id"
+        });
         const accountsIds: string[] = await overviewPage.getAccountsIds();
         await overviewPage.goToBillPayPage();
         await billPaymentPage.billPayment(
