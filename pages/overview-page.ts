@@ -1,19 +1,19 @@
 import { expect, Locator, Page } from "@playwright/test";
+import { BasePage } from "./base-page";
 
-export class OverviewPage {
+export class OverviewPage extends BasePage {
     private readonly RightPanel: Locator;
     private readonly AccountTable: Locator;
-    private readonly UpdateProfile: Locator;
 
-    constructor (public readonly page: Page){
+    constructor (page: Page){
+        super(page);
         this.RightPanel = page.locator("div[id='rightPanel']");
         this.AccountTable = page.locator("table[id='accountTable']");
-        this.UpdateProfile = page.locator("a[href='updateprofile.htm']");
     }
 
-    async goToUpdateProfilePage() {
-        await this.UpdateProfile.click();
-        await this.page.waitForLoadState("networkidle");
+    async getAccountsIds() {
+        await this.page.waitForLoadState('networkidle');
+        return (await this.AccountTable.locator("tbody tr td:first-child a").allInnerTexts()).map(id => id.trim());
     }
 
     async assertUserIsRegstered(username: string, expectedWelcomeMessage: string) {
@@ -26,7 +26,19 @@ export class OverviewPage {
     }
 
     async assertAccountTableIsNotEmpty() {
-        const accountRows = await this.AccountTable.locator("tr").count() - 1; // Subtract header row
-        expect(accountRows).toBeGreaterThan(0);
+        const accountRowsCount: number = await this.AccountTable.locator("tr").count() - 1;
+        expect(accountRowsCount).toBeGreaterThan(0);
+    }
+
+    async assertAccountIsAvailable(accountId: string) {
+        const accountRow: Locator = this.AccountTable.locator(`tr:has(td:has-text("${accountId}"))`);
+        await expect(accountRow).toBeVisible();
+    }
+
+    async assertAccountHasMinimumAmount(accountId: string) {
+        const accountRow: Locator = this.AccountTable.locator(`tr:has(td:has-text("${accountId}"))`);
+        const availableAmountText: string = await accountRow.locator("td:nth-child(2)").innerText();
+        const availableAmount: number = parseFloat(availableAmountText.replace(/[$,]/g, ''));
+        expect(availableAmount).toBeGreaterThanOrEqual(100);
     }
 }
