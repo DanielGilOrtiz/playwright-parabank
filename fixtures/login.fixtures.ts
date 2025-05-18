@@ -4,7 +4,7 @@ import { OverviewPage } from '../pages/overview-page';
 import { test as registerTest } from './register.fixtures';
 
 type LoginFixtures = {
-  loginAsRegisteredUser: () => Promise<void>;
+  loginAsRegisteredUser: () => Promise<string>;
 };
 
 // Extend from register fixtures to have access to registeredUser
@@ -19,6 +19,8 @@ export const test = registerTest.extend<LoginFixtures>({
       await registerPage.assertUserIsLoggedIn(registeredUser.firstName, registeredUser.lastName);
       await overviewPage.assertAccountTableIsVisible();
       await overviewPage.assertAccountTableIsNotEmpty();
+      const accountsIds = await overviewPage.getAccountsIds();
+      return accountsIds[0];
     };
     await use(loginAsRegisteredUser);
   }
