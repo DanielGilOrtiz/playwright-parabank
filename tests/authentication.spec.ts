@@ -59,7 +59,7 @@ test.describe("Authentication", () => {
     test.describe("Logout", () => {
         test("should close the session successfully", async ({ registeredUser }) => {
             await indexPage.login(registeredUser.username, registeredUser.password);            
-            await registerPage.logout();
+            await overviewPage.logout();
             await indexPage.assertUserIsNotLoggedIn();
         });
     });
