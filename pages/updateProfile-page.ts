@@ -1,6 +1,7 @@
 import { expect, Locator, Page } from "@playwright/test";
+import { BasePage } from "./base-page";
 
-export class UpdateProfilePage {
+export class UpdateProfilePage extends BasePage {
     private readonly FirstName: Locator;
     private readonly LastName: Locator;
     private readonly Address: Locator;
@@ -10,7 +11,8 @@ export class UpdateProfilePage {
     private readonly Phone: Locator;
     private readonly UpdateProfile: Locator;
 
-    constructor (public readonly page: Page){
+    constructor (page: Page){
+        super(page);
         this.FirstName = page.locator("input[name='customer.firstName']");
         this.LastName = page.locator("input[name='customer.lastName']");
         this.Address = page.locator("input[name='customer.address.street']");

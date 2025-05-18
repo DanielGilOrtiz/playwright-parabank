@@ -6,11 +6,13 @@ export class IndexPage {
     private readonly Login: Locator;
     private readonly RightPanel: Locator;
     private readonly Register: Locator;
+    private readonly AccountsOverview: Locator;
 
     constructor (public readonly page: Page){
         this.Username = page.locator("input[name='username']");
         this.Password = page.locator("input[name='password']");
         this.Register = page.getByRole("link", {name: "Register"});
+        this.AccountsOverview = page.getByRole("link", {name: "Accounts Overview"});
         this.Login = page.getByRole("button", {name: "Log In"});
         this.RightPanel = page.locator("div[id='rightPanel']");
     }
@@ -21,6 +23,7 @@ export class IndexPage {
 
     async goToRegisterPage() {
         await this.Register.click();
+        await this.page.waitForLoadState("networkidle");
     }
 
     async login(username: string, password: string) {
