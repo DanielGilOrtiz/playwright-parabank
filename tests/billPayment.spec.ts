@@ -8,8 +8,9 @@ import { initializeDatabase } from "../helpers/db-helper";
 import { BILL_PAYMENT } from "../constants/billPayment";
 
 const billPayment = BILL_PAYMENT.billPayment;
-const nonValidAccountExpectedErrorMessage = "Please enter a valid number.";
-const nonValidAmountExpectedErrorMessage = "Please enter a valid amount.";
+const nonValidAccountExpectedErrorMessage: string = "Please enter a valid number.";
+const nonValidAmountExpectedErrorMessage: string = "Please enter a valid amount.";
+const defaultAmount: string = "100.00";
 
 test.describe("Bill payment transaction", () => {
     let indexPage: IndexPage;
@@ -42,7 +43,7 @@ test.describe("Bill payment transaction", () => {
             billPayment.phone,
             billPayment.account,
             billPayment.verifyAccount,
-            "100.00",
+            defaultAmount,
             accountsIds[0]
         );
         await billPaymentPage.assertBillPaymentSucceeded(billPayment.name, "100.00", accountsIds[0]);
@@ -92,7 +93,7 @@ test.describe("Bill payment transaction", () => {
                 billPayment.phone,
                 account,
                 verifyAccount,
-                "100",
+                defaultAmount,
                 accountsIds[0]
             );
             await billPaymentPage.assertErrorMessage(nonValidAccountExpectedErrorMessage);
@@ -129,7 +130,7 @@ test.describe("Bill payment transaction", () => {
             billPayment.phone,
             billPayment.account,
             billPayment.verifyAccount,
-            "100.00",
+            defaultAmount,
             accountsIds[0]
         );
         await overviewPage.goToFindTransactionsPage();
@@ -150,7 +151,7 @@ test.describe("Bill payment transaction", () => {
             billPayment.phone,
             billPayment.account,
             billPayment.verifyAccount,
-            "100.00",
+            defaultAmount,
             accountsIds[0]
         );
         await overviewPage.goToFindTransactionsPage();
@@ -174,7 +175,7 @@ test.describe("Bill payment transaction", () => {
             billPayment.phone,
             billPayment.account,
             billPayment.verifyAccount,
-            "100.00",
+            defaultAmount,
             accountsIds[0]
         );
         await overviewPage.goToOverviewPage();
