@@ -16,6 +16,11 @@ export class OverviewPage extends BasePage {
         return (await this.AccountTable.locator("tbody tr td:first-child a").allInnerTexts()).map(id => id.trim());
     }
 
+    async openAccountDetails(accountId: string) {
+        const accountLink: Locator = this.AccountTable.locator(`a:has-text("${accountId}")`);
+        await accountLink.click();
+    }
+
     async assertUserIsRegstered(username: string, expectedWelcomeMessage: string) {
         await expect(this.RightPanel).toContainText("Welcome " + username);
         await expect(this.RightPanel).toContainText(expectedWelcomeMessage);
