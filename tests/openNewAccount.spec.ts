@@ -29,7 +29,7 @@ test.describe("Open new account", () => {
         test(`should create a new ${accountType} account`, async () => {
             let availableAccountsIds: string[] = await overviewPage.getAccountsIds();
             await overviewPage.goToOpenAccountPage();
-            await openAccountPage.openAccount(accountType, availableAccountsIds[0]);
+            await openAccountPage.createAccount(accountType, availableAccountsIds[0]);
             await openAccountPage.assertNewAccountIsCreated();
         });
     });
@@ -37,7 +37,7 @@ test.describe("Open new account", () => {
     test("should show the new account in Accounts Overview", async () => {
         let availableAccountsIds: string[] = await overviewPage.getAccountsIds();
         await overviewPage.goToOpenAccountPage();
-        await openAccountPage.openAccount("CHECKING", availableAccountsIds[0]);
+        await openAccountPage.createAccount("CHECKING", availableAccountsIds[0]);
         let newAccountId: string = await openAccountPage.getNewAccountId();
         await openAccountPage.goToOverviewPage();
         await overviewPage.assertAccountIsAvailable(newAccountId);
@@ -46,7 +46,7 @@ test.describe("Open new account", () => {
     test("should display the minimum required amount for a new account", async () => {
         let availableAccountsIds: string[] = await overviewPage.getAccountsIds();
         await overviewPage.goToOpenAccountPage();
-        await openAccountPage.openAccount("CHECKING", availableAccountsIds[0]);
+        await openAccountPage.createAccount("CHECKING", availableAccountsIds[0]);
         let newAccountId: string = await openAccountPage.getNewAccountId();
         await openAccountPage.goToOverviewPage();
         await overviewPage.assertAccountHasMinimumAmount(newAccountId);
