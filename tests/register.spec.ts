@@ -95,7 +95,7 @@ test.describe("Register", () => {
             validUser.ssn
         );
         await overviewPage.assertUserIsRegstered(validUser.username, accountCreatedMessage);
-        await registerPage.logout();
+        await overviewPage.logout();
         await indexPage.land();
         await indexPage.goToRegisterPage();
         await registerPage.registerNewUserWith(

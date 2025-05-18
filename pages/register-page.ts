@@ -15,7 +15,6 @@ export class RegisterPage {
     private readonly Phone: Locator;
     private readonly SSN: Locator;
     private readonly Register: Locator;
-    private readonly Logout: Locator;
 
     constructor (public readonly page: Page){
         this.RightPanel = page.locator("div[id='rightPanel']");
@@ -32,7 +31,6 @@ export class RegisterPage {
         this.Phone = page.locator("input[name='customer.phoneNumber']");
         this.SSN = page.locator("input[name='customer.ssn']");
         this.Register = page.getByRole("button", {name: "Register"});
-        this.Logout = page.getByText("Log Out");
     }
 
     async registerNewUserWith(
@@ -62,10 +60,6 @@ export class RegisterPage {
         await this.Register.click();
     }
 
-    async logout() {
-        await this.Logout.click();
-    }
-
     async assertUserIsLoggedIn(firstName: string, lastName: string) {
         await expect(this.LeftPanel).toContainText("Welcome " + firstName + " " + lastName);
         await expect(this.Username).not.toBeVisible();
@@ -77,7 +71,7 @@ export class RegisterPage {
         await expect(this.RightPanel).toContainText(expectedErrorMessage);
     }
 
-    async assertMissingFieldErrorMessage(expectedErrorMessage: string){
-        await expect(this.RightPanel).toContainText(expectedErrorMessage + " is required.");
+    async assertMissingFieldErrorMessage(expectedField: string){
+        await expect(this.RightPanel).toContainText(expectedField + " is required.");
     }
 }

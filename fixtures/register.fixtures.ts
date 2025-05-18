@@ -2,6 +2,7 @@ import { test as base } from '@playwright/test';
 import { IndexPage } from '../pages/index-page';
 import { RegisterPage } from '../pages/register-page';
 import { USERS } from '../constants/users';
+import { OverviewPage } from '../pages/overview-page';
 
 type RegisterFixtures = {
   registeredUser: typeof USERS.validUser;
@@ -14,6 +15,7 @@ export const test = base.extend<RegisterFixtures>({
     const registerNewUser = async () => {
       const indexPage = new IndexPage(page);
       const registerPage = new RegisterPage(page);
+      const overviewPage = new OverviewPage(page);
       await indexPage.goToRegisterPage();
       await registerPage.registerNewUserWith(
         USERS.validUser.username,
@@ -28,7 +30,7 @@ export const test = base.extend<RegisterFixtures>({
         USERS.validUser.phone,
         USERS.validUser.ssn
       );
-      await registerPage.logout();
+      await overviewPage.logout();
       await indexPage.land();
     };
     await use(registerNewUser);
