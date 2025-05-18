@@ -17,7 +17,7 @@ export class OpenAccountPage extends BasePage {
         this.NewAccountId = page.locator("a[id='newAccountId']");
     }
 
-    async openAccount(type: string, fromAccountId: string) {
+    async createAccount(type: string, fromAccountId: string) {
         await this.AccountType.selectOption(type);
         await this.FromAccountId.selectOption(fromAccountId);
         await this.OpenNewAccount.click();
