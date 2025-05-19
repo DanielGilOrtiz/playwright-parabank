@@ -6,6 +6,9 @@ import { FindTransactionsPage } from "../pages/findTransactions-page";
 import { TransferPage } from "../pages/transfer-page";
 import { initializeDatabase } from "../helpers/db-helper";
 
+const defaultTransferAmount: string = "100.00";
+const expectedErrorMessage: string = "An internal error has occurred and has been logged.";
+
 test.describe("Transfer funds", () => {
     let indexPage: IndexPage;
     let overviewPage: OverviewPage;
@@ -13,7 +16,9 @@ test.describe("Transfer funds", () => {
     let findTransactionsPage: FindTransactionsPage;
     let transferPage: TransferPage;
     let defaultAccountId: string;
+    let defaultAccountAvailableAmount: number;
     let newAccountId: string;
+    let newAccountAvailableAmount: number;
 
     test.beforeEach(async ({ request, page, registerNewUser, loginAsRegisteredUser, openNewAccount }) => {
         indexPage = new IndexPage(page);
@@ -21,19 +26,45 @@ test.describe("Transfer funds", () => {
         billPaymentPage = new BillPaymentPage(page);
         findTransactionsPage = new FindTransactionsPage(page);
         transferPage = new TransferPage(page);
+
         await initializeDatabase({ request });
         await indexPage.land();
         await registerNewUser();
-        defaultAccountId = await loginAsRegisteredUser();
-        newAccountId = await openNewAccount();
+        const defaultAccount = await loginAsRegisteredUser();
+        defaultAccountId = defaultAccount.accountId;
+        const newAccount = await openNewAccount();
+        newAccountId = newAccount.accountId;
+        newAccountAvailableAmount = newAccount.availableAmount;
+        defaultAccountAvailableAmount = newAccount.defaultAccountAvailableAmount;
     });
 
     test("should be satisfactory with valid data", async () => {
-        const amount = "100.00";
-
         await overviewPage.goToTransferFundsPage();
-        await transferPage.transferFunds(amount, defaultAccountId, newAccountId);
-        await transferPage.assertTransferIsCompleted(amount, defaultAccountId, newAccountId);
+        await transferPage.transferFunds(defaultTransferAmount, defaultAccountId, newAccountId);
+        await transferPage.assertTransferIsCompleted(defaultTransferAmount, defaultAccountId, newAccountId);
     });
 
-});
+    test("should update the accounts available amount", async () => {
+        await overviewPage.goToTransferFundsPage();
+        await transferPage.transferFunds(defaultTransferAmount, defaultAccountId, newAccountId);
+        await transferPage.goToOverviewPage();
+        await overviewPage.assertAccountsAvailableAmountsAreUpdatedAfterTransaction(
+            defaultAccountId,
+            defaultAccountAvailableAmount,
+            newAccountId,
+            newAccountAvailableAmount,
+            parseFloat(defaultTransferAmount)
+        )
+    });
+
+    [
+        { nonValidAmount: "Emtpy", amountValue: "" },
+        { nonValidAmount: "Not a number", amountValue: "nonValidAmount" },
+    ].forEach(({ nonValidAmount, amountValue }) => {
+        test(`should return an error with ${nonValidAmount} amount`, async () => {
+            await overviewPage.goToTransferFundsPage();
+            await transferPage.transferFunds(amountValue, defaultAccountId, newAccountId);
+            await transferPage.assertErrorMessage(expectedErrorMessage);
+        });
+    });
+})

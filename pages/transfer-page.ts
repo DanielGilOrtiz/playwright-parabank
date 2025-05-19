@@ -7,6 +7,7 @@ export class TransferPage extends BasePage {
     private readonly ToAccountId: Locator;
     private readonly Transfer: Locator;
     private readonly RightPanel: Locator;
+    private readonly ErrorPanel: Locator;
 
     constructor (page: Page){
         super(page);
@@ -15,6 +16,7 @@ export class TransferPage extends BasePage {
         this.ToAccountId = page.getByTestId("toAccountId");
         this.Transfer = page.getByRole("button", {name: "Transfer"});
         this.RightPanel = page.locator("div[id='rightPanel']");
+        this.ErrorPanel = page.getByTestId("showError");
     }
 
     async transferFunds(amount: string, fromAccountId: string, toAccountId: string) {
@@ -28,5 +30,10 @@ export class TransferPage extends BasePage {
         await expect(this.RightPanel).toContainText("Transfer Complete!");
         await expect(this.RightPanel).toContainText(`$${amount} has been transferred from account #${fromAccountId} to account #${toAccountId}.`);
         await expect(this.RightPanel).toContainText("See Account Activity for more details.");
+    }
+
+    async assertErrorMessage(expectedErrorMessage: string){
+        await expect(this.ErrorPanel.locator("h1.title")).toHaveText("Error!");
+        await expect(this.ErrorPanel.locator("p.error")).toHaveText(expectedErrorMessage);
     }
 }
