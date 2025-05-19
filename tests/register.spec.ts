@@ -25,10 +25,10 @@ test.describe("Register", () => {
     }),
 
     [
-        { optionalField: "all fields", phone: validUser.phone },
-        { optionalField: "only mandatory fields", phone: "" },
-    ].forEach(({ optionalField, phone }) => {
-        test(`should create a new user with ${optionalField}`, async () => {
+        { optionalFieldOption: "all fields", phone: validUser.phone },
+        { optionalFieldOption: "only mandatory fields", phone: "" },
+    ].forEach(({ optionalFieldOption: optionalFieldOption, phone }) => {
+        test(`should create a new user with ${optionalFieldOption}`, async () => {
             await indexPage.goToRegisterPage();
             await registerPage.registerNewUserWith(
                 validUser.username,
@@ -60,7 +60,7 @@ test.describe("Register", () => {
         { mandatoryField: "Zip Code", username: validUser.username, password: validUser.password, confirmPassword: validUser.password, firstName: validUser.firstName, lastName: validUser.lastName, address: validUser.address, city: validUser.city, state: validUser.state, zipCode: "", ssn: validUser.ssn },
         { mandatoryField: "Social Security Number", username: validUser.username, password: validUser.password, confirmPassword: validUser.password, firstName: validUser.firstName, lastName: validUser.lastName, address: validUser.address, city: validUser.city, state: validUser.state, zipCode: validUser.zipCode, ssn: "" }
     ].forEach(({ mandatoryField, username, password, confirmPassword, firstName, lastName, address, city, state, zipCode, ssn }) => {
-        test(`should show error message with missing ${mandatoryField}`, async () => {
+        test(`should return an error when ${mandatoryField} is missing`, async () => {
             await indexPage.goToRegisterPage();
             await registerPage.registerNewUserWith(
                 username,
@@ -80,7 +80,7 @@ test.describe("Register", () => {
         });
     });
 
-    test("should show an error message when username is already taken", async () => {
+    test("should return an error when username is already taken", async () => {
         await indexPage.goToRegisterPage();
         await registerPage.registerNewUserWith(
             validUser.username,
@@ -115,7 +115,7 @@ test.describe("Register", () => {
         await registerPage.assertErrorMessage(existingUserErrorMessage);
     });
 
-    test("should show an error message when confirm password doesn't match", async () => {
+    test("should return an error when passoword and confirmed password do not match", async () => {
         await indexPage.goToRegisterPage();
         await registerPage.registerNewUserWith(
             validUser.username,

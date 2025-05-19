@@ -5,7 +5,7 @@ import { OverviewPage } from "../pages/overview-page";
 import { UpdateProfilePage } from "../pages/updateProfile-page";
 import { initializeDatabase } from "../helpers/db-helper";
 
-test.describe("Update Profile", () => {
+test.describe("Update profile", () => {
     let indexPage: IndexPage;
     let registerPage: RegisterPage;
     let overviewPage: OverviewPage;
@@ -32,7 +32,7 @@ test.describe("Update Profile", () => {
         { fieldName: "Zip Code" },
         { fieldName: "Phone" }
     ].forEach(({ fieldName }) => {
-        test(`should update data from field ${fieldName}`, async () => {
+        test(`should update ${fieldName} field from user`, async () => {
             await overviewPage.goToUpdateProfilePage();
             await updateProfilePage.updateExistingUserField(fieldName, "Updated field");
             await overviewPage.goToUpdateProfilePage();

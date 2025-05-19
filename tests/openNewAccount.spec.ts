@@ -5,7 +5,7 @@ import { OpenAccountPage } from "../pages/openAccount-page";
 import { UpdateProfilePage } from "../pages/updateProfile-page";
 import { initializeDatabase } from "../helpers/db-helper";
 
-test.describe("Open new account", () => {
+test.describe("Open account", () => {
     let indexPage: IndexPage;
     let overviewPage: OverviewPage;
     let updateProfilePage: UpdateProfilePage;
@@ -35,7 +35,7 @@ test.describe("Open new account", () => {
         });
     });
 
-    test("should show the new account in Accounts Overview", async () => {
+    test("should display the new account in Accounts Overview", async () => {
         let availableAccountsIds: string[] = await overviewPage.getAccountsIds();
         await overviewPage.goToOpenAccountPage();
         await openAccountPage.createAccount("CHECKING", availableAccountsIds[0]);
@@ -44,7 +44,7 @@ test.describe("Open new account", () => {
         await overviewPage.assertAccountIsAvailable(newAccountId);
     });
 
-    test("should display the minimum required amount for a new account", async () => {
+    test("should create the new account with the minimum required amount", async () => {
         let availableAccountsIds: string[] = await overviewPage.getAccountsIds();
         await overviewPage.goToOpenAccountPage();
         await openAccountPage.createAccount("CHECKING", availableAccountsIds[0]);

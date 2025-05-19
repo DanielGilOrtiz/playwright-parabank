@@ -25,7 +25,7 @@ test.describe("Authentication", () => {
     }),
 
     test.describe("Login", () => {
-        test("should access when credentials are valid", async ({ registeredUser }) => {
+        test("should access when using valid credentials", async ({ registeredUser }) => {
             await indexPage.login(registeredUser.username, registeredUser.password);
             await registerPage.assertUserIsLoggedIn(registeredUser.firstName, registeredUser.lastName);
             await overviewPage.assertAccountTableIsVisible();
@@ -37,7 +37,7 @@ test.describe("Authentication", () => {
             { credential: "password", username: USERS.validUser.username, password: nonValidUser.password },
             { credential: "credentials", username: nonValidUser.username, password: nonValidUser.password }
         ].forEach(({ credential, username, password }) => {
-            test(`should show error message when using wrong ${credential}`, async () => {
+            test(`should return an error when using wrong ${credential}`, async () => {
                 await indexPage.login(username, password);
                 await indexPage.assertErrorMessage(wrongCredentialsErrorMessage);
                 await indexPage.assertUserIsNotLoggedIn();
@@ -49,7 +49,7 @@ test.describe("Authentication", () => {
             { credential: "password", username: USERS.validUser.username, password: "" },
             { credential: "credentials", username: "", password: "" }
         ].forEach(({ credential, username, password }) => {
-            test(`should show error message with missing ${credential}`, async () => {
+            test(`should return an error when ${credential} is missing`, async () => {
                 await indexPage.login(username, password);
                 await indexPage.assertErrorMessage(missingCredentialsErrorMessage);
                 await indexPage.assertUserIsNotLoggedIn();

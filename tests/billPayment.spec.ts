@@ -10,7 +10,7 @@ import { BILL_PAYMENT } from "../constants/billPayment";
 const billPayment = BILL_PAYMENT.billPayment;
 const nonValidAccountExpectedErrorMessage: string = "Please enter a valid number.";
 const nonValidAmountExpectedErrorMessage: string = "Please enter a valid amount.";
-const defaultAmount: string = "100.00";
+const defaultBillAmount: string = "100.00";
 
 test.describe("Bill payment transaction", () => {
     let indexPage: IndexPage;
@@ -33,7 +33,7 @@ test.describe("Bill payment transaction", () => {
         defaultAccount = await loginAsRegisteredUser();
     });
 
-    test("should be satisfactory with valid data", async () => {
+    test("should be satisfactory when valid data is used", async () => {
         await overviewPage.goToBillPayPage();
         await billPaymentPage.billPayment(
             billPayment.name,
@@ -44,7 +44,7 @@ test.describe("Bill payment transaction", () => {
             billPayment.phone,
             billPayment.account,
             billPayment.verifyAccount,
-            defaultAmount,
+            defaultBillAmount,
             defaultAccount.accountId
         );
         await billPaymentPage.assertBillPaymentSucceeded(billPayment.name, "100.00", defaultAccount.accountId);
@@ -59,7 +59,7 @@ test.describe("Bill payment transaction", () => {
         { missingField: "Phone number", name: billPayment.name, address: billPayment.address, city: billPayment.city, state: billPayment.state, zipCode: billPayment.zipCode, phone: "", account: billPayment.account, verifyAccount: billPayment.verifyAccount, amount: "100" },
         { missingField: "Account number", name: billPayment.name, address: billPayment.address, city: billPayment.city, state: billPayment.state, zipCode: billPayment.zipCode, phone: billPayment.phone, account: "", verifyAccount: "", amount: "100" }
     ].forEach(({ missingField, name, address, city, state, zipCode, phone, account, verifyAccount, amount }) => {
-        test(`should show error message with missing ${missingField}`, async () => {
+        test(`should return an error when ${missingField} is missing`, async () => {
             await overviewPage.goToBillPayPage();
             await billPaymentPage.billPayment(
                 name,
@@ -78,10 +78,11 @@ test.describe("Bill payment transaction", () => {
     });
 
     [
-        { nonValidField: "Account", account: "non-valid-account", verifyAccount: billPayment.verifyAccount },
-        { nonValidField: "Verify account", account: billPayment.account, verifyAccount: "non-valid-account" }
-    ].forEach(({ nonValidField, account, verifyAccount }) => {
-        test(`should show error message with non-valid ${nonValidField}`, async () => {
+        { nonValidField: "Account", account: "non-valid-account", verifyAccount: billPayment.verifyAccount, amount: defaultBillAmount },
+        { nonValidField: "Verify account", account: billPayment.account, verifyAccount: "non-valid-account", amount: defaultBillAmount },
+        { nonValidField: "Amount", account: billPayment.account, verifyAccount: billPayment.verifyAccount, amount: "non-valid-amount" },
+    ].forEach(({ nonValidField, account, verifyAccount, amount }) => {
+        test(`should return an error when ${nonValidField} is non-valid`, async () => {
             await overviewPage.goToBillPayPage();
             await billPaymentPage.billPayment(
                 billPayment.name,
@@ -92,28 +93,11 @@ test.describe("Bill payment transaction", () => {
                 billPayment.phone,
                 account,
                 verifyAccount,
-                defaultAmount,
+                amount,
                 defaultAccount.accountId
             );
             await billPaymentPage.assertErrorMessage(nonValidAccountExpectedErrorMessage);
         });
-    });
-
-    test("should show error message with non-valid Amount", async () => {
-        await overviewPage.goToBillPayPage();
-        await billPaymentPage.billPayment(
-            billPayment.name,
-            billPayment.address,
-            billPayment.city,
-            billPayment.state,
-            billPayment.zipCode,
-            billPayment.phone,
-            billPayment.account,
-            billPayment.verifyAccount,
-            "non-valid-amount",
-            defaultAccount.accountId
-        );
-        await billPaymentPage.assertErrorMessage(nonValidAmountExpectedErrorMessage);
     });
 
     test("should be found when filtering by Amount", async () => {
@@ -127,7 +111,7 @@ test.describe("Bill payment transaction", () => {
             billPayment.phone,
             billPayment.account,
             billPayment.verifyAccount,
-            defaultAmount,
+            defaultBillAmount,
             defaultAccount.accountId
         );
         await overviewPage.goToFindTransactionsPage();
@@ -136,7 +120,6 @@ test.describe("Bill payment transaction", () => {
     });
 
     test("should be found when filtering by Date", async () => {
-        const currentDate = new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).replace(/\//g, '-');
         await overviewPage.goToBillPayPage();
         await billPaymentPage.billPayment(
             billPayment.name,
@@ -147,10 +130,11 @@ test.describe("Bill payment transaction", () => {
             billPayment.phone,
             billPayment.account,
             billPayment.verifyAccount,
-            defaultAmount,
+            defaultBillAmount,
             defaultAccount.accountId
         );
         await overviewPage.goToFindTransactionsPage();
+        const currentDate = new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).replace(/\//g, '-');
         await findTransactionsPage.findTransactionBy("Date", currentDate);
         await findTransactionsPage.assertTransactionIsAvailable(billPayment.name);
     });
@@ -170,7 +154,7 @@ test.describe("Bill payment transaction", () => {
             billPayment.phone,
             billPayment.account,
             billPayment.verifyAccount,
-            defaultAmount,
+            defaultBillAmount,
             defaultAccount.accountId
         );
         await overviewPage.goToOverviewPage();

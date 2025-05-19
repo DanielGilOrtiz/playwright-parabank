@@ -9,7 +9,7 @@ import { initializeDatabase } from "../helpers/db-helper";
 const defaultTransferAmount: string = "100.00";
 const expectedErrorMessage: string = "An internal error has occurred and has been logged.";
 
-test.describe("Transfer funds", () => {
+test.describe("Funds transfer", () => {
     let indexPage: IndexPage;
     let overviewPage: OverviewPage;
     let billPaymentPage: BillPaymentPage;
@@ -38,7 +38,7 @@ test.describe("Transfer funds", () => {
         defaultAccountAvailableAmount = newAccount.defaultAccountAvailableAmount;
     });
 
-    test("should be satisfactory with valid data", async () => {
+    test("should be satisfactory when using valid data", async () => {
         await overviewPage.goToTransferFundsPage();
         await transferPage.transferFunds(defaultTransferAmount, defaultAccountId, newAccountId);
         await transferPage.assertTransferIsCompleted(defaultTransferAmount, defaultAccountId, newAccountId);
@@ -48,7 +48,7 @@ test.describe("Transfer funds", () => {
         await overviewPage.goToTransferFundsPage();
         await transferPage.transferFunds(defaultTransferAmount, defaultAccountId, newAccountId);
         await transferPage.goToOverviewPage();
-        await overviewPage.assertAccountsAvailableAmountsAreUpdatedAfterTransaction(
+        await overviewPage.assertTransferUpdatedBalances(
             defaultAccountId,
             defaultAccountAvailableAmount,
             newAccountId,
@@ -58,10 +58,10 @@ test.describe("Transfer funds", () => {
     });
 
     [
-        { nonValidAmount: "Emtpy", amountValue: "" },
-        { nonValidAmount: "Not a number", amountValue: "nonValidAmount" },
+        { nonValidAmount: "emtpy", amountValue: "" },
+        { nonValidAmount: "not a number", amountValue: "nonValidAmount" },
     ].forEach(({ nonValidAmount, amountValue }) => {
-        test(`should return an error with ${nonValidAmount} amount`, async () => {
+        test(`should return an error when using ${nonValidAmount} amount`, async () => {
             await overviewPage.goToTransferFundsPage();
             await transferPage.transferFunds(amountValue, defaultAccountId, newAccountId);
             await transferPage.assertErrorMessage(expectedErrorMessage);

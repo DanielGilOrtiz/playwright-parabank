@@ -32,7 +32,7 @@ test.describe("Loan Request", () => {
         defaultAccount = await loginAsRegisteredUser();
     });
 
-    test("should be approved with enough funds", async () => {
+    test("should be approved when funds are enough", async () => {
         const loanAmount = defaultAccount.availableAmount;
         const downPayment = defaultAccount.availableAmount;
         
@@ -45,7 +45,7 @@ test.describe("Loan Request", () => {
         await loanPage.assertLoanRequestIsApproved();
     });
 
-    test ("should create a new account with the loan amount", async () => {
+    test ("should create a new account with the loan amount when is approved", async () => {
         const loanAmount = defaultAccount.availableAmount;
         const downPayment = defaultAccount.availableAmount;
 
@@ -59,7 +59,7 @@ test.describe("Loan Request", () => {
         await activityPage.assertAccountHasAvailableAmount(defaultAccount.accountId, loanAmount);
     });
 
-    test("should be denied without enough funds", async () => {
+    test("should be denied when funds are not enough", async () => {
         const loanAmount = defaultAccount.availableAmount;
         const downPayment = defaultAccount.availableAmount + 0.01;
         
@@ -76,7 +76,7 @@ test.describe("Loan Request", () => {
         { missingField: "Loan Amount", loanAmount: "", downPayment: 1 },
         { missingField: "Down Payment", loanAmount: 1, downPayment: "" }
     ].forEach(({ missingField, loanAmount, downPayment }) => {
-        test(`should return an error with missing ${missingField}`, async () => {
+        test(`should return an error when ${missingField} is missing`, async () => {
             await overviewPage.goToRequestLoanPage();
             await loanPage.applyForLoan(
                 loanAmount.toString(),
@@ -91,7 +91,7 @@ test.describe("Loan Request", () => {
         { nonValidField: "Loan Amount", loanAmount: "nonValidAmount", downPayment: 1 },
         { nonValidField: "Down Payment", loanAmount: 1, downPayment: "nonValidAmount" }
     ].forEach(({ nonValidField, loanAmount, downPayment }) => {
-        test(`should return an error with non-valid ${nonValidField}`, async () => {
+        test(`should return an error when ${nonValidField} is non-valid`, async () => {
             await overviewPage.goToRequestLoanPage();
             await loanPage.applyForLoan(
                 loanAmount.toString(),
