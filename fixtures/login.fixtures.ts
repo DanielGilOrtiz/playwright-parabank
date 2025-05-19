@@ -4,7 +4,10 @@ import { OverviewPage } from '../pages/overview-page';
 import { test as registerTest } from './register.fixtures';
 
 type LoginFixtures = {
-  loginAsRegisteredUser: () => Promise<string>;
+  loginAsRegisteredUser: () => Promise<{
+    accountId: string;
+    availableAmount: number;
+  }>;
 };
 
 // Extend from register fixtures to have access to registeredUser
@@ -20,7 +23,14 @@ export const test = registerTest.extend<LoginFixtures>({
       await overviewPage.assertAccountTableIsVisible();
       await overviewPage.assertAccountTableIsNotEmpty();
       const accountsIds = await overviewPage.getAccountsIds();
-      return accountsIds[0];
+      const defaultAccountId = accountsIds[0];
+      const accountsAvailableAmount = await overviewPage.getAccountsAvailableAmount();
+      const defaultAccountAvailableAmount = accountsAvailableAmount[0];
+      
+      return {
+        accountId: defaultAccountId,
+        availableAmount: defaultAccountAvailableAmount
+      };
     };
     await use(loginAsRegisteredUser);
   }

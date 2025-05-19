@@ -23,6 +23,11 @@ export class OpenAccountPage extends BasePage {
         await this.OpenNewAccount.click();
     }
 
+    async openNewAccountDetails() {
+        await this.NewAccountId.click();
+        await this.page.waitForLoadState('networkidle');
+    }
+
     async getNewAccountId() {
         await this.NewAccountId.waitFor({ state: 'visible' });
         return await this.NewAccountId.innerText();
@@ -31,6 +36,6 @@ export class OpenAccountPage extends BasePage {
     async assertNewAccountIsCreated() {
         await expect(this.RightPanel).toContainText("Congratulations, your account is now open.");
         await expect(this.RightPanel).toContainText("Account Opened!");
-        await expect(this.RightPanel).toContainText("Your new account number: ");
+        await expect(this.RightPanel).toContainText(/Your new account number: \d+/);
     }
 }

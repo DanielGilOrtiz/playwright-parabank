@@ -18,6 +18,7 @@ test.describe("Bill payment transaction", () => {
     let billPaymentPage: BillPaymentPage;
     let findTransactionsPage: FindTransactionsPage;
     let activityPage: ActivityPage;
+    let defaultAccount: { accountId: string; availableAmount: number };
 
     test.beforeEach(async ({ request, page, registerNewUser, loginAsRegisteredUser }) => {
         indexPage = new IndexPage(page);
@@ -25,14 +26,14 @@ test.describe("Bill payment transaction", () => {
         billPaymentPage = new BillPaymentPage(page);
         findTransactionsPage = new FindTransactionsPage(page);
         activityPage = new ActivityPage(page);
+        
         await initializeDatabase({ request });
         await indexPage.land();
         await registerNewUser();
-        await loginAsRegisteredUser();
+        defaultAccount = await loginAsRegisteredUser();
     });
 
     test("should be satisfactory with valid data", async () => {
-        const accountsIds: string[] = await overviewPage.getAccountsIds();
         await overviewPage.goToBillPayPage();
         await billPaymentPage.billPayment(
             billPayment.name,
@@ -44,9 +45,9 @@ test.describe("Bill payment transaction", () => {
             billPayment.account,
             billPayment.verifyAccount,
             defaultAmount,
-            accountsIds[0]
+            defaultAccount.accountId
         );
-        await billPaymentPage.assertBillPaymentSucceeded(billPayment.name, "100.00", accountsIds[0]);
+        await billPaymentPage.assertBillPaymentSucceeded(billPayment.name, "100.00", defaultAccount.accountId);
     });
 
     [
@@ -59,7 +60,6 @@ test.describe("Bill payment transaction", () => {
         { missingField: "Account number", name: billPayment.name, address: billPayment.address, city: billPayment.city, state: billPayment.state, zipCode: billPayment.zipCode, phone: billPayment.phone, account: "", verifyAccount: "", amount: "100" }
     ].forEach(({ missingField, name, address, city, state, zipCode, phone, account, verifyAccount, amount }) => {
         test(`should show error message with missing ${missingField}`, async () => {
-            const accountsIds: string[] = await overviewPage.getAccountsIds();
             await overviewPage.goToBillPayPage();
             await billPaymentPage.billPayment(
                 name,
@@ -71,7 +71,7 @@ test.describe("Bill payment transaction", () => {
                 account,
                 verifyAccount,
                 amount,
-                accountsIds[0]
+                defaultAccount.accountId
             );
             await billPaymentPage.assertMissingFieldErrorMessage(missingField);
         });
@@ -82,7 +82,6 @@ test.describe("Bill payment transaction", () => {
         { nonValidField: "Verify account", account: billPayment.account, verifyAccount: "non-valid-account" }
     ].forEach(({ nonValidField, account, verifyAccount }) => {
         test(`should show error message with non-valid ${nonValidField}`, async () => {
-            const accountsIds: string[] = await overviewPage.getAccountsIds();
             await overviewPage.goToBillPayPage();
             await billPaymentPage.billPayment(
                 billPayment.name,
@@ -94,14 +93,13 @@ test.describe("Bill payment transaction", () => {
                 account,
                 verifyAccount,
                 defaultAmount,
-                accountsIds[0]
+                defaultAccount.accountId
             );
             await billPaymentPage.assertErrorMessage(nonValidAccountExpectedErrorMessage);
         });
     });
 
     test("should show error message with non-valid Amount", async () => {
-        const accountsIds: string[] = await overviewPage.getAccountsIds();
         await overviewPage.goToBillPayPage();
         await billPaymentPage.billPayment(
             billPayment.name,
@@ -113,13 +111,12 @@ test.describe("Bill payment transaction", () => {
             billPayment.account,
             billPayment.verifyAccount,
             "non-valid-amount",
-            accountsIds[0]
+            defaultAccount.accountId
         );
         await billPaymentPage.assertErrorMessage(nonValidAmountExpectedErrorMessage);
     });
 
     test("should be found when filtering by Amount", async () => {
-        const accountsIds: string[] = await overviewPage.getAccountsIds();
         await overviewPage.goToBillPayPage();
         await billPaymentPage.billPayment(
             billPayment.name,
@@ -131,7 +128,7 @@ test.describe("Bill payment transaction", () => {
             billPayment.account,
             billPayment.verifyAccount,
             defaultAmount,
-            accountsIds[0]
+            defaultAccount.accountId
         );
         await overviewPage.goToFindTransactionsPage();
         await findTransactionsPage.findTransactionBy("Amount", "100.00");
@@ -139,7 +136,6 @@ test.describe("Bill payment transaction", () => {
     });
 
     test("should be found when filtering by Date", async () => {
-        const accountsIds: string[] = await overviewPage.getAccountsIds();
         const currentDate = new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).replace(/\//g, '-');
         await overviewPage.goToBillPayPage();
         await billPaymentPage.billPayment(
@@ -152,7 +148,7 @@ test.describe("Bill payment transaction", () => {
             billPayment.account,
             billPayment.verifyAccount,
             defaultAmount,
-            accountsIds[0]
+            defaultAccount.accountId
         );
         await overviewPage.goToFindTransactionsPage();
         await findTransactionsPage.findTransactionBy("Date", currentDate);
@@ -164,7 +160,6 @@ test.describe("Bill payment transaction", () => {
             type: "Bug",
             description: "Issue #1: Error retrieved when filtering by Id"
         });
-        const accountsIds: string[] = await overviewPage.getAccountsIds();
         await overviewPage.goToBillPayPage();
         await billPaymentPage.billPayment(
             billPayment.name,
@@ -176,10 +171,10 @@ test.describe("Bill payment transaction", () => {
             billPayment.account,
             billPayment.verifyAccount,
             defaultAmount,
-            accountsIds[0]
+            defaultAccount.accountId
         );
         await overviewPage.goToOverviewPage();
-        await overviewPage.openAccountDetails(accountsIds[0]);
+        await overviewPage.openAccountDetails(defaultAccount.accountId);
         await activityPage.openTransactionDetails(billPayment.name);
         const transactionId = await activityPage.getTransactionId() ?? "";
         await overviewPage.goToFindTransactionsPage();
