@@ -2,23 +2,15 @@ import { expect, Locator, Page } from "@playwright/test";
 import { BasePage } from "./base-page";
 
 export class ActivityPage extends BasePage {
-    private readonly Go: Locator;
     private readonly AccountTable: Locator;
     private readonly AccountId: Locator;
     private readonly AccountAvailableAmount: Locator;
 
     constructor (page: Page){
         super(page);
-        this.Go = page.locator("input[type='submit']");
         this.AccountTable = page.getByTestId("transactionTable");
         this.AccountId = page.getByTestId("accountId");
         this.AccountAvailableAmount = page.getByTestId("availableBalance");
-    }
-
-    async seeAccountActivity(){
-        await this.Go.click();
-        
-        await expect(this.AccountTable).toBeVisible();
     }
 
     async openTransactionDetails(payeeName: string){

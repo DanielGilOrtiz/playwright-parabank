@@ -8,9 +8,8 @@ import { initializeDatabase } from "../helpers/db-helper";
 import { BILL_PAYMENT } from "../constants/billPayment";
 
 const billPayment = BILL_PAYMENT.billPayment;
-const nonValidAccountExpectedErrorMessage: string = "Please enter a valid number.";
-const nonValidAmountExpectedErrorMessage: string = "Please enter a valid amount.";
 const defaultBillAmount: string = "100.00";
+const nonValidAccountExpectedErrorMessage: string = "Please enter a valid number.";
 
 test.describe("Bill payment transaction", () => {
     let indexPage: IndexPage;

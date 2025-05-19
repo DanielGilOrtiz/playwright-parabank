@@ -1,8 +1,6 @@
 import { test } from "../fixtures/login.fixtures";
 import { IndexPage } from "../pages/index-page";
 import { OverviewPage } from "../pages/overview-page";
-import { BillPaymentPage } from "../pages/billPay-page";
-import { FindTransactionsPage } from "../pages/findTransactions-page";
 import { ActivityPage } from "../pages/activity-page";
 import { LoanPage } from "../pages/requestLoan-page";
 import { initializeDatabase } from "../helpers/db-helper";
@@ -12,8 +10,6 @@ const expectedErrorMessage: string = "An internal error has occurred and has bee
 test.describe("Loan Request", () => {
     let indexPage: IndexPage;
     let overviewPage: OverviewPage;
-    let billPaymentPage: BillPaymentPage;
-    let findTransactionsPage: FindTransactionsPage;
     let activityPage: ActivityPage;
     let loanPage: LoanPage;
     let defaultAccount: { accountId: string; availableAmount: number };
@@ -21,8 +17,6 @@ test.describe("Loan Request", () => {
     test.beforeEach(async ({ request, page, registerNewUser, loginAsRegisteredUser }) => {
         indexPage = new IndexPage(page);
         overviewPage = new OverviewPage(page);
-        billPaymentPage = new BillPaymentPage(page);
-        findTransactionsPage = new FindTransactionsPage(page);
         activityPage = new ActivityPage(page);
         loanPage = new LoanPage(page);
         
