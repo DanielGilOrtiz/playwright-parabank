@@ -12,7 +12,7 @@ export class ActivityPage extends BasePage {
         this.Go = page.locator("input[type='submit']");
         this.AccountTable = page.getByTestId("transactionTable");
         this.AccountId = page.getByTestId("accountId");
-        this.AccountAvailableAmount = page.getByTestId("balance");
+        this.AccountAvailableAmount = page.getByTestId("availableBalance");
     }
 
     async seeAccountActivity(){
@@ -39,5 +39,10 @@ export class ActivityPage extends BasePage {
         await this.AccountAvailableAmount.waitFor({ state: 'visible' });
         const availableAmountText = await this.AccountAvailableAmount.textContent();
         return parseFloat(availableAmountText?.replace(/[$,]/g, '') ?? '0');
+    }
+
+    async assertAccountHasAvailableAmount(acountId: string, expectedAmount: number) {
+        const newAccountAvailableAmount = await this.getAccountAvailableAmount();
+        expect(newAccountAvailableAmount).toEqual(expectedAmount);
     }
 }
