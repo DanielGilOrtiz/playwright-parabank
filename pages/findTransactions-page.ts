@@ -42,6 +42,7 @@ export class FindTransactionsPage extends BasePage {
 
     async assertTransactionIsAvailable(payeeName: string) {
         const transactionCell: Locator = this.TransactionsTable.locator(`tr td:has-text("Bill Payment to ${payeeName}")`);
+        
         await expect(transactionCell).toBeVisible();
     }
 }

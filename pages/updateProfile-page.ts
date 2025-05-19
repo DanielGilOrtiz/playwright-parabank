@@ -23,58 +23,40 @@ export class UpdateProfilePage extends BasePage {
         this.UpdateProfile = page.getByRole("button", {name: "Update Profile"});
     }
 
-    async updateExistingUserField( field: string, value: string ) {
-        switch (field) {
-            case "First Name":
-                await this.FirstName.fill(value);
-                break;
-            case "Last Name":
-                await this.LastName.fill(value);
-                break;
-            case "Address":
-                await this.Address.fill(value);
-                break;
-            case "City":
-                await this.City.fill(value);
-                break;
-            case "State":
-                await this.State.fill(value);
-                break;
-            case "Zip Code":
-                await this.ZipCode.fill(value);
-                break;
-            case "Phone":
-                await this.Phone.fill(value);
-                break;
-            default:
-                throw new Error(`Field ${field} is not recognized`);
-        }
-        await this.UpdateProfile.click();
-    };
+    async updateExistingUserField(field: string, value: string) {
+        const fieldMap: Record<string, Locator> = {
+            "First Name": this.FirstName,
+            "Last Name": this.LastName,
+            "Address": this.Address,
+            "City": this.City,
+            "State": this.State,
+            "Zip Code": this.ZipCode,
+            "Phone": this.Phone,
+        };
 
-    async assertFieldIsUpdated( field: string, value: string ) {
-        switch (field) {
-            case "First Name":
-                await expect(this.FirstName).toHaveValue(value);
-                break;
-            case "Last Name":
-                await expect(this.LastName).toHaveValue(value);
-                break;
-            case "Address":
-                await expect(this.Address).toHaveValue(value);
-                break;
-            case "City":
-                await expect(this.City).toHaveValue(value);
-                break;
-            case "State":
-                await expect(this.State).toHaveValue(value);
-                break;
-            case "Zip Code":
-                await expect(this.ZipCode).toHaveValue(value);
-                break;
-            case "Phone":
-                await expect(this.Phone).toHaveValue(value);
-                break;
+        const locator = fieldMap[field];
+        if (!locator) {
+            throw new Error(`Field ${field} is not recognized`);
         }
+        await locator.fill(value);
+        await this.UpdateProfile.click();
+    }
+
+    async assertFieldIsUpdated(field: string, value: string) {
+        const fieldMap: Record<string, Locator> = {
+            "First Name": this.FirstName,
+            "Last Name": this.LastName,
+            "Address": this.Address,
+            "City": this.City,
+            "State": this.State,
+            "Zip Code": this.ZipCode,
+            "Phone": this.Phone,
+        };
+
+        const locator = fieldMap[field];
+        if (!locator) {
+            throw new Error(`Field ${field} is not recognized`);
+        }
+        await expect(locator).toHaveValue(value);
     }
 }

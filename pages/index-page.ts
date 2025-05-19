@@ -32,13 +32,14 @@ export class IndexPage {
         await this.Login.click();
     }
 
-    async assertErrorMessage(errorMessage: string){
+    async assertErrorMessage(expectedErrorMessage: string){
         await expect(this.RightPanel.locator("h1.title")).toHaveText("Error!");
-        await expect(this.RightPanel.locator("p.error")).toHaveText(errorMessage);
+        await expect(this.RightPanel.locator("p.error")).toHaveText(expectedErrorMessage);
     }
 
     async assertUserIsNotLoggedIn() {
         const title = this.RightPanel.locator("h1.title");
+        
         if (await title.isVisible()) await expect(title).not.toContainText("Welcome");
         await expect(this.Username).toBeVisible();
         await expect(this.Password).toBeVisible();
