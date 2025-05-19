@@ -1,0 +1,25 @@
+# Node.js dependencies
+node_modules/
+
+# Playwright specific
+playwright-report/
+test-results/
+**/test-results/
+**/playwright-report/
+
+# Git
+.git
+.gitignore
+
+# IDE specific
+.idea/
+.vscode/
+
+# Misc
+*.log
+*.md
+.DS_Store
+
+# Environment variables
+.env
+.env.*
