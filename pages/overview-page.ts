@@ -49,14 +49,15 @@ export class OverviewPage extends BasePage {
     }
 
     async assertAccountHasMinimumAmount(accountId: string) {
+        const minimumAmount: number = 100;
         const accountRow: Locator = this.AccountTable.locator(`tr:has(td:has-text("${accountId}"))`);
         const availableAmountText: string = await accountRow.locator("td:nth-child(2)").innerText();
         const availableAmount: number = parseFloat(availableAmountText.replace(/[$,]/g, ''));
         
-        expect(availableAmount).toBeGreaterThanOrEqual(100);
+        expect(availableAmount).toBeGreaterThanOrEqual(minimumAmount);
     }
 
-    async assertAccountsAvailableAmountsAreUpdatedAfterTransaction(
+    async assertTransferUpdatedBalances(
         account1Id: string, 
         account1AmountBeforeTransfer: number, 
         account2Id: string, 
