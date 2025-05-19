@@ -32,7 +32,7 @@ test.describe("Update profile", () => {
         { fieldName: "Zip Code" },
         { fieldName: "Phone" }
     ].forEach(({ fieldName }) => {
-        test(`should update ${fieldName} field from user`, async () => {
+        test(`should update user's ${fieldName}`, async () => {
             await overviewPage.goToUpdateProfilePage();
             await updateProfilePage.updateExistingUserField(fieldName, "Updated field");
             await overviewPage.goToUpdateProfilePage();
