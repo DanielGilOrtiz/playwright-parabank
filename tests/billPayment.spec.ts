@@ -141,7 +141,7 @@ test.describe("Bill payment transaction", () => {
     test.fixme("should be found when filtering by Id", async () => {
         test.info().annotations.push({
             type: "Bug",
-            description: "Issue #1: Error retrieved when filtering by Id"
+            description: "Issue #1: Error retrieved when filtering by Transaction ID"
         });
         await overviewPage.goToBillPayPage();
         await billPaymentPage.billPayment(

@@ -7,8 +7,8 @@ export class OverviewPage extends BasePage {
 
     constructor (page: Page){
         super(page);
-        this.RightPanel = page.locator("div[id='rightPanel']");
-        this.AccountTable = page.locator("table[id='accountTable']");
+        this.RightPanel = page.getByTestId("rightPanel");
+        this.AccountTable = page.getByTestId("accountTable");
     }
 
     async getAccountsIds() {

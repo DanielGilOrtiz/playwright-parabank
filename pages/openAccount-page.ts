@@ -10,11 +10,11 @@ export class OpenAccountPage extends BasePage {
 
     constructor (page: Page){
         super(page);
-        this.AccountType = page.locator("select[id='type']");
-        this.FromAccountId = page.locator("select[id='fromAccountId']");
+        this.AccountType = page.getByTestId("type");
+        this.FromAccountId = page.getByTestId("fromAccountId");
         this.OpenNewAccount = page.getByRole("button", {name: "Open New Account"});
-        this.RightPanel = page.locator("div[id='rightPanel']");
-        this.NewAccountId = page.locator("a[id='newAccountId']");
+        this.RightPanel = page.getByTestId("rightPanel");
+        this.NewAccountId = page.getByTestId("newAccountId");
     }
 
     async createAccount(type: string, fromAccountId: string) {

@@ -15,7 +15,7 @@ export class TransferPage extends BasePage {
         this.FromAccountId = page.getByTestId("fromAccountId");
         this.ToAccountId = page.getByTestId("toAccountId");
         this.Transfer = page.getByRole("button", {name: "Transfer"});
-        this.RightPanel = page.locator("div[id='rightPanel']");
+        this.RightPanel = page.getByTestId("rightPanel");
         this.ErrorPanel = page.getByTestId("showError");
     }
 

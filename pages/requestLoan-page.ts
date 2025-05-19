@@ -17,7 +17,7 @@ export class LoanPage extends BasePage {
         this.FromAccount = page.getByTestId("fromAccountId");
         this.ApplyNow = page.getByRole("button", { name: "APPLY NOW" });
         this.requestLoanResult = page.getByTestId("requestLoanResult");
-        this.NewAccountId = page.locator("a[id='newAccountId']");
+        this.NewAccountId = page.getByTestId("newAccountId");
         this.ErrorPanel = page.getByTestId("requestLoanError");
     }
 

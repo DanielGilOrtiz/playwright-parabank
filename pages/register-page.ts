@@ -17,19 +17,19 @@ export class RegisterPage {
     private readonly Register: Locator;
 
     constructor (public readonly page: Page){
-        this.RightPanel = page.locator("div[id='rightPanel']");
-        this.LeftPanel = page.locator("div[id='leftPanel']");
-        this.Username = page.locator("input[name='customer.username']");
-        this.Password = page.locator("input[name='customer.password']");
-        this.ConfirmPassword = page.locator("input[name='repeatedPassword']");
-        this.FirstName = page.locator("input[name='customer.firstName']");
-        this.LastName = page.locator("input[name='customer.lastName']");
-        this.Address = page.locator("input[name='customer.address.street']");
-        this.City = page.locator("input[name='customer.address.city']");
-        this.State = page.locator("input[name='customer.address.state']");
-        this.ZipCode = page.locator("input[name='customer.address.zipCode']");
-        this.Phone = page.locator("input[name='customer.phoneNumber']");
-        this.SSN = page.locator("input[name='customer.ssn']");
+        this.RightPanel = page.getByTestId("rightPanel");
+        this.LeftPanel = page.getByTestId("leftPanel");
+        this.Username = page.getByTestId("customer.username");
+        this.Password = page.getByTestId("customer.password");
+        this.ConfirmPassword = page.getByTestId("repeatedPassword");
+        this.FirstName = page.getByTestId("customer.firstName");
+        this.LastName = page.getByTestId("customer.lastName");
+        this.Address = page.getByTestId("customer.address.street");
+        this.City = page.getByTestId("customer.address.city");
+        this.State = page.getByTestId("customer.address.state");
+        this.ZipCode = page.getByTestId("customer.address.zipCode");
+        this.Phone = page.getByTestId("customer.phoneNumber");
+        this.SSN = page.getByTestId("customer.ssn");
         this.Register = page.getByRole("button", {name: "Register"});
     }
 

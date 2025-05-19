@@ -13,13 +13,13 @@ export class UpdateProfilePage extends BasePage {
 
     constructor (page: Page){
         super(page);
-        this.FirstName = page.locator("input[name='customer.firstName']");
-        this.LastName = page.locator("input[name='customer.lastName']");
-        this.Address = page.locator("input[name='customer.address.street']");
-        this.City = page.locator("input[name='customer.address.city']");
-        this.State = page.locator("input[name='customer.address.state']");
-        this.ZipCode = page.locator("input[name='customer.address.zipCode']");
-        this.Phone = page.locator("input[name='customer.phoneNumber']");
+        this.FirstName = page.getByTestId("customer.firstName");
+        this.LastName = page.getByTestId("customer.lastName");
+        this.Address = page.getByTestId("customer.address.street");
+        this.City = page.getByTestId("customer.address.city");
+        this.State = page.getByTestId("customer.address.state");
+        this.ZipCode = page.getByTestId("customer.address.zipCode");
+        this.Phone = page.getByTestId("customer.phoneNumber");
         this.UpdateProfile = page.getByRole("button", {name: "Update Profile"});
     }
 
