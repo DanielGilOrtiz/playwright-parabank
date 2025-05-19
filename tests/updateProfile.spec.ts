@@ -16,6 +16,7 @@ test.describe("Update Profile", () => {
         registerPage = new RegisterPage(page);
         overviewPage = new OverviewPage(page);
         updateProfilePage = new UpdateProfilePage(page);
+        
         await initializeDatabase({ request });
         await indexPage.land();
         await registerNewUser();

@@ -16,6 +16,7 @@ test.describe("Open new account", () => {
         overviewPage = new OverviewPage(page);
         openAccountPage = new OpenAccountPage(page);
         updateProfilePage = new UpdateProfilePage(page);
+        
         await initializeDatabase({ request });
         await indexPage.land();
         await registerNewUser();

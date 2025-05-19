@@ -18,6 +18,7 @@ test.describe("Authentication", () => {
         indexPage = new IndexPage(page);
         registerPage = new RegisterPage(page);
         overviewPage = new OverviewPage(page);
+        
         await initializeDatabase({ request });
         await indexPage.land();
         await registerNewUser();
