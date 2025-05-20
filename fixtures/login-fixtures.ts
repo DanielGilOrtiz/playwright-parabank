@@ -1,7 +1,7 @@
 import { IndexPage } from '../pages/index-page';
 import { RegisterPage } from '../pages/register-page';
 import { OverviewPage } from '../pages/overview-page';
-import { test as registerTest } from './register.fixtures';
+import { test as registerTest } from './register-fixtures';
 
 type LoginFixtures = {
   loginAsRegisteredUser: () => Promise<{

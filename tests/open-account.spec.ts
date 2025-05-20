@@ -1,8 +1,8 @@
-import { test } from "../fixtures/login.fixtures";
+import { test } from "../fixtures/login-fixtures";
 import { IndexPage } from "../pages/index-page";
 import { OverviewPage } from "../pages/overview-page";
-import { OpenAccountPage } from "../pages/openAccount-page";
-import { UpdateProfilePage } from "../pages/updateProfile-page";
+import { OpenAccountPage } from "../pages/open-account-page";
+import { UpdateProfilePage } from "../pages/update-profile-page";
 import { initializeDatabase } from "../helpers/db-helper";
 
 test.describe("Open account", () => {

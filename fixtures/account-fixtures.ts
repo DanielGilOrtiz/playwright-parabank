@@ -1,7 +1,7 @@
 import { OverviewPage } from '../pages/overview-page';
-import { OpenAccountPage } from '../pages/openAccount-page';
+import { OpenAccountPage } from '../pages/open-account-page';
 import { ActivityPage } from '../pages/activity-page';
-import { test as loginTest } from './login.fixtures';
+import { test as loginTest } from './login-fixtures';
 
 type OpenAccountFixtures = {
   openNewAccount: () => Promise<{

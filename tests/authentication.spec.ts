@@ -1,4 +1,4 @@
-import { test } from "../fixtures/register.fixtures";
+import { test } from "../fixtures/register-fixtures";
 import { IndexPage } from "../pages/index-page";
 import { RegisterPage } from "../pages/register-page";
 import { OverviewPage } from "../pages/overview-page";

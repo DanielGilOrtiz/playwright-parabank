@@ -1,8 +1,8 @@
-import { test } from "../fixtures/login.fixtures";
+import { test } from "../fixtures/login-fixtures";
 import { IndexPage } from "../pages/index-page";
 import { OverviewPage } from "../pages/overview-page";
-import { BillPaymentPage } from "../pages/billPay-page";
-import { FindTransactionsPage } from "../pages/findTransactions-page";
+import { BillPaymentPage } from "../pages/bill-pay-page";
+import { FindTransactionsPage } from "../pages/find-transactions-page";
 import { ActivityPage } from "../pages/activity-page";
 import { initializeDatabase } from "../helpers/db-helper";
 import { BILL_PAYMENT } from "../constants/billPayment";

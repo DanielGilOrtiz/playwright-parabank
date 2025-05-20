@@ -1,4 +1,4 @@
-import { test } from "../fixtures/openAccount.fixtures";
+import { test } from "../fixtures/account-fixtures";
 import { IndexPage } from "../pages/index-page";
 import { OverviewPage } from "../pages/overview-page";
 import { TransferPage } from "../pages/transfer-page";

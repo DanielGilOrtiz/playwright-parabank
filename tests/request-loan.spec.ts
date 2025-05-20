@@ -1,8 +1,8 @@
-import { test } from "../fixtures/login.fixtures";
+import { test } from "../fixtures/login-fixtures";
 import { IndexPage } from "../pages/index-page";
 import { OverviewPage } from "../pages/overview-page";
 import { ActivityPage } from "../pages/activity-page";
-import { LoanPage } from "../pages/requestLoan-page";
+import { LoanPage } from "../pages/request-loan-page";
 import { initializeDatabase } from "../helpers/db-helper";
 
 const expectedErrorMessage: string = "An internal error has occurred and has been logged.";
