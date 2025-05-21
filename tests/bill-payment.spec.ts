@@ -5,7 +5,7 @@ import { BillPaymentPage } from "../pages/bill-pay-page";
 import { FindTransactionsPage } from "../pages/find-transactions-page";
 import { ActivityPage } from "../pages/activity-page";
 import { initializeDatabase } from "../helpers/db-helper";
-import { BILL_PAYMENT } from "../constants/billPayment";
+import { BILL_PAYMENT } from "../constants/bill-payment";
 
 const billPayment = BILL_PAYMENT.billPayment;
 const defaultBillAmount: string = "100.00";
