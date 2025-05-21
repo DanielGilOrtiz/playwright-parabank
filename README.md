@@ -85,34 +85,34 @@ npx playwright test tests/authentication.spec.ts
 
 ```
 ├── constants/                         # Test constants and data
-│   ├── billPayment.ts                 
+│   ├── bill-payment.ts                 
 │   └── users.ts                      
 ├── fixtures/                          # Playwright test fixtures
-│   ├── login.fixtures.ts              
-│   ├── openAccount.fixtures.ts        
-│   └── register.fixtures.ts           
+│   ├── account-fixtures.ts               
+│   ├── login-fixtures.ts       
+│   └── register-fixtures.ts           
 ├── helpers/                           # Helper functions
 │   └── db-helper.ts                   
 ├── pages/                             # Page Object Models
 │   ├── activity-page.ts              
 │   ├── base-page.ts                   
-│   ├── billPay-page.ts                
-│   ├── findTransactions-page.ts       
+│   ├── bill-pay-page.ts                
+│   ├── find-transactions-page.ts       
 │   ├── index-page.ts                  
-│   ├── openAccount-page.ts            
+│   ├── open-account-page.ts            
 │   ├── overview-page.ts               
 │   ├── register-page.ts               
-│   ├── requestLoan-page.ts            
+│   ├── request-loan-page.ts            
 │   ├── transfer-page.ts               
-│   └── updateProfile-page.ts         
+│   └── update-profile-page.ts         
 ├── tests/                             # Test files
 │   ├── authentication.spec.ts        
-│   ├── billPayment.spec.ts            
-│   ├── openNewAccount.spec.ts         
+│   ├── bill-payment.spec.ts            
+│   ├── open-account.spec.ts         
 │   ├── register.spec.ts             
-│   ├── requestLoan.spec.ts            
-│   ├── transferFunds.spec.ts          
-│   └── updateProfile.spec.ts         
+│   ├── request-loan.spec.ts            
+│   ├── transfer-funds.spec.ts          
+│   └── update-profile.spec.ts         
 ├── Dockerfile                         # Docker configuration
 ├── playwright.config.ts               # Playwright configuration
 └── package.json                       # Project dependencies
