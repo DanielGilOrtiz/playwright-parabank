@@ -79,6 +79,8 @@ npx playwright test --reporter=html
 npx playwright test tests/authentication.spec.ts
 ```
 
+> Note: Failing tests will generate a trace with detailed information and screenshots in the report generated.
+
 ## Project Structure
 
 ```
